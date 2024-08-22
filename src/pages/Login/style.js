@@ -18,11 +18,12 @@ const style = StyleSheet.create({
         fontSize:20,
         paddingTop:15,
         paddingBottom:10,
-        paddingLeft:15,
+        paddingRight:250,
     },
     imput:{
         height:50,
-        width:300,
+        width:350,
+        fontSize:20,
         placeholderTextColor:'#bbbbbb',
         textAlign:'center',
         backgroundColor:'#ffffff',
@@ -40,6 +41,7 @@ const style = StyleSheet.create({
         padding:10,
     },
     buttonAcess:{
+        width:350,
         backgroundColor:'#FFA835',
         borderRadius:50,
     },

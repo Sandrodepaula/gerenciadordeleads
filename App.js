@@ -5,10 +5,9 @@ import Login from './src/pages/Login';
 export default function App() {
   return (
     <View style={style.container}>
-      <ImageBackground source={require('./src/assests/background-image-500.jpg')} resizeMode='cover'style={style.image}>
+      <ImageBackground source={require('./src/assests/background-image-500.jpg')} style={style.image}>
 
-        <View >
-    
+        <View style={style.container}>
           <Image 
           source={require('./src/assests/logo-icon-200.png')} 
           style={style.logo}/>
@@ -23,14 +22,17 @@ export default function App() {
 
 const style = StyleSheet.create({
   container:{
-    flex:1,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
   },
   image:{
-    flex:1,
+    height:800,
+    width:500,
+    resizeMode:'cover',
     justifyContent:'center',
-  },  
-  logo:{
     
-  },
+  },  
+  
 })
 
