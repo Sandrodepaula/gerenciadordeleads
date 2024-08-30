@@ -4,11 +4,20 @@ import React, {useState} from 'react';
 import style from './style'
 
 
-export default function Form(){
+export default function Leads(navigation){
+
+    const sair = () => {
+        navigation.reset({
+            index: 0,
+            routes: [{name: "Login"}]
+        })
+    }
+
+
     return(
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
+            <Text>Tela de Leads</Text>
         </View>
     );
 }

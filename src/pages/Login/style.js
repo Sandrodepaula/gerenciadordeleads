@@ -1,4 +1,4 @@
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     container:{
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
         paddingBottom:10,
         paddingRight:250,
     },
-    imput:{
+    input:{
         height:50,
         width:350,
         fontSize:20,
