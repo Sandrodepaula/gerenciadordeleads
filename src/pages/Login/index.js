@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function Login({ navigation }){
     const[email, setEmail] = useState('')
-    const[password, setPassword] = useState(null)
+    const[password, setPassword] = useState('')
     const[errorEmail, setErrorEmail] = useState(false)
     const[errorPassword, setErrorPassword] = useState(false)
 
@@ -20,18 +20,14 @@ export default function Login({ navigation }){
     };
 
     const validationPassword = (text) => {
-        setSenha(text);
+        setPassword(text);
         const regex = /^[A-Za-z\d@$!%*?&]{6,}$/;
         setErrorPassword(!regex.test(text));
       };
 
     const validation = () =>{
         if (!errorEmail && !errorPassword){
-            navigation({
-                routes:[{name: 'Form'}]
-            })
-        }else{
-            console.log('invalido')
+            navigation.navigate('Form')
         }
     }
 
@@ -47,8 +43,8 @@ export default function Login({ navigation }){
             placeholder='digite seu e-mail'
             onChangeText={validationEmail}
             keyboardType='email-address'
-            
             />
+            {errorEmail && <Text style={{color:'red'}}>Email inválido</Text>}
 
             <Text style={style.formLabel}>Senha</Text>
             <TextInput
@@ -57,11 +53,18 @@ export default function Login({ navigation }){
             onChangeText={validationPassword}
             secureTextEntry={true}
             />
+            {errorPassword && <Text style={{color:'red'}}>Senha inválida</Text>}
            
 
             <Text style={style.forgot}>Esqueceu a senha?</Text>
            
-            <Button style={style.buttonAcess} onPress={() => navigation.navigate('Form')} title="ACESSE"/>
+            <Button style={style.buttonAcess} 
+            onPress={() => validation()}
+            title="ACESSE"
+            disabled={errorEmail || errorPassword}
+            />
+            
+
             
             <Text style={style.createdAcount}>Não tem cadastro? Criar conta</Text>
         </View>
