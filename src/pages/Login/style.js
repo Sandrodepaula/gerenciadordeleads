@@ -2,9 +2,13 @@ import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     container:{
-        textAlign:'center',
+        flex:1,
+        padding:15
+        
+    },
+    logo:{
         alignItems:'center',
-        justifyContent:'center',
+        padding:65,
     },
     login:{
         textAlign:'center',
@@ -14,19 +18,19 @@ const style = StyleSheet.create({
         fontSize: 36,
     },
     formLabel:{
+        textAlign:'left',
         color:'#FE7235',
         fontSize:20,
         paddingTop:15,
         paddingBottom:10,
-        paddingRight:250,
+        paddingLeft:15
     },
     input:{
         height:50,
-        width:350,
+        width:'100%',
         fontSize:20,
-        placeholderTextColor:'#bbbbbb',
-        textAlign:'center',
-        backgroundColor:'#ffffff',
+        textAlign:'left',
+        backgroundColor:'white',
         borderRadius:12,
     },
     forgot:{
@@ -34,17 +38,13 @@ const style = StyleSheet.create({
         paddingTop:10,
         paddingBottom:20,
     },
-    textAcess:{
-        color:'#ffffff',
-        textAlign:'center',
-        fontSize:20,
-        padding:10,
-    },
+
     buttonAcess:{
         width:350,
         backgroundColor:'#FFA835',
         borderRadius:50,
     },
+
     createdAcount:{
         paddingTop:95,
         textAlign:'center',
