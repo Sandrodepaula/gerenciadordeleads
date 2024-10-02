@@ -1,4 +1,4 @@
-import { Text, View, Image, ImageBackground} from 'react-native';
+import { Text, View, Image, ImageBackground, TextInput} from 'react-native';
 import { Button, Icon, Input } from '@rneui/themed';
 import React, {useState} from 'react';
 import style from './style'
@@ -29,8 +29,8 @@ export default function Login({ navigation }){
     }
 
     const forgorPassword = () =>{
-        navigation.navigate('Form')
-        
+        navigation.navigate('Leads')
+       
     }
 
 
@@ -46,17 +46,19 @@ export default function Login({ navigation }){
 
             <View>
                 <Text style={style.formLabel} >Email</Text>
-                <Input
-                leftIcon={<Icon name='mail-outline' size={24} color='gray'/>}
-                style={style.input}
-                placeholder='digite seu e-mail'
-                onChangeText={validationEmail}
-                keyboardType='email-address'
-                />
+                <View style={{flexDirection: 'row', alignItems:'center'}}>
+                    <Icon name='mail-outline' size={24} color='gray' />
+                    <TextInput
+                    style={style.input}
+                    placeholder='digite seu e-mail'
+                    onChangeText={validationEmail}
+                    keyboardType='email-address'
+                    />
+                </View>
                 {errorEmail && <Text style={{color:'red'}}>Email inválido</Text>}
 
                 <Text style={style.formLabel}>Senha</Text>
-                <Input
+                <TextInput
                 leftIcon={<Icon name='lock' size={24} color='gray'/>}
                 style={style.input}
                 placeholder='digite sua senha' 
@@ -66,7 +68,7 @@ export default function Login({ navigation }){
                 {errorPassword && <Text style={{color:'red'}}>Senha inválida</Text>}
             </View>
 
-            <Text style={style.forgot} onPress={forgorPassword}>Esqueceu sua senha?</Text>
+            <Text style={style.forgot} onPress={forgorPassword }>Esqueceu sua senha?</Text>
             <View>
                 <Button
                 title="ACESSE"

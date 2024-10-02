@@ -32,11 +32,19 @@ const style = StyleSheet.create({
         textAlign:'left',
         backgroundColor:'white',
         borderRadius:12,
+        padding:10,
+        shadowColor:'#000',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 9,
+        elevation: 6,
+       
     },
     forgot:{
         textAlign:'right',
         paddingTop:10,
         paddingBottom:20,
+        textDecorationLine:'underline'
     },
 
     buttonAcess:{
