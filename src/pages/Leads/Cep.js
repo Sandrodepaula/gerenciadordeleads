@@ -10,7 +10,7 @@ export default function Cep(){
     const [estado, setEstado] = useState(null);
     const [logradouro, setLogradouro] = useState('');
     const [endereco, setEndereco] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    
     
     useEffect(() => {
         const fetchData = async () => {
@@ -18,15 +18,13 @@ export default function Cep(){
             const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
             const data = await response.json();
             setEndereco(data);
-            setIsLoading(true);
-          } catch (error) {
-            logradouro === '' && !isLoading && endereco ? { borderColor: 'red' } : {}
             
-          }
-        };   
+          } catch (error) {
+            
+        }};   
         fetchData();
       }, [cep]);
-
+      
     
     
     return(
@@ -43,8 +41,8 @@ export default function Cep(){
             <Text style={style.formLabel}>Estado</Text>
             <TextInput
             style={style.input} 
-            placeholder='digite seu nome completo'
-            value={estado || endereco.estado}
+            placeholder=' '
+            value={estado || endereco.estado}   
             onChangeText={(text)=> setEstado(text)}
             keyboardType='name-phone-pad'
             />

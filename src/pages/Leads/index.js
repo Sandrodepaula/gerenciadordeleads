@@ -5,16 +5,45 @@ import style from './style';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TextInputMask } from 'react-native-masked-text'
 import Cep from './Cep'
+import { cpf } from 'cpf-cnpj-validator'; 
 
 export default function Form(){
+    const [nome, setName] = useState('');
     const [cell, setCell] = useState('');
     const [cpf, setCpf] = useState('');
     const [date, setDate] = useState('');
-    const [cep, setCep] = useState('');
-    const [estado, setEstado] = useState('');
-    const [logradouro, setLogradouro] = useState('');
+    const [email, setEmail] = useState('');
+    const [errorEmail, setErrorEmail] = useState(false)
+    const [errorName, setErrorName] = useState(false);
+    const [errorCpf, setErrorCpf] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
+    
+    const validationEmail = (text) => {
+        setEmail(text);
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(setEmail === '' || !regex.test(text)){
+            setErrorEmail(true);
+        }
+            
+    };
 
+    const validationName = () =>{
+        if (setName === ''){
+            setErrorName(true)
+        }
+    }
+
+    const validationCpf = (text) => {
+        setCpf(text)
+        
+    }
+    
+    const validation = () =>{
+        if (!errorEmail && !errorPassword){
+            navigation.navigate('')
+        }
+    }
 
     return(
         <View style={style.container}>
@@ -58,15 +87,15 @@ export default function Form(){
                 }}
                 value={cell}
                 onChangeText={text => setCell(text)}
-                placeholder='(99) 99999-9999'
+                placeholder='(00) 9 0000-0000'
                 />
                 <Text style={style.formLabel}>CPF</Text>
                 <TextInputMask 
                 style={style.input}
                 type={'cpf'}
                 value={cpf}
-                onChange={text => setCpf(text)}
-                placeholder='999.999.999-99'
+                onChange={validationCpf()}
+                placeholder='000.000.000.00'
                 />
                 <Cep/>
                 <View style={{padding:10}}>
@@ -78,6 +107,7 @@ export default function Form(){
                     }}
                     titleStyle={{ fontSize: 20 }}
                     onPress={() => validation()}
+                    disabled={errorName || errorEmail || errorCpf }
                     
                     />
                 </View>

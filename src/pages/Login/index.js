@@ -1,6 +1,6 @@
 import { Text, View, Image, ImageBackground, TextInput} from 'react-native';
 import { Button, Icon, Input } from '@rneui/themed';
-import React, {useState} from 'react';
+import React, {useState} from 'react'; 
 import style from './style'
 
 export default function Login({ navigation }){
@@ -80,7 +80,7 @@ export default function Login({ navigation }){
                 disabled={errorEmail || errorPassword}
                 />
             </View>
-                       
+                                  
             <Text style={style.createdAcount}>Não tem cadastro? 
                 <Text onPress={alert}
                 style={{color:'rgba(254, 114, 53, 1)'}}> Criar conta</Text>
