@@ -5,19 +5,15 @@ import style from './style';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TextInputMask } from 'react-native-masked-text'
 import Cep from './Cep'
-import { cpf } from 'cpf-cnpj-validator'; 
+import Cpf from './Cpf';
 
 export default function Form(){
     const [nome, setName] = useState('');
     const [cell, setCell] = useState('');
-    const [cpf, setCpf] = useState('');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorName, setErrorName] = useState(false);
-    const [errorCpf, setErrorCpf] = useState(false);
-    const [isValid, setIsValid] = useState(false);
-
     
     const validationEmail = (text) => {
         setEmail(text);
@@ -34,15 +30,9 @@ export default function Form(){
         }
     }
 
-    const validationCpf = (text) => {
-        setCpf(text)
-        
-    }
     
     const validation = () =>{
-        if (!errorEmail && !errorPassword){
-            navigation.navigate('')
-        }
+        console.log('Cadastrou');
     }
 
     return(
@@ -53,7 +43,9 @@ export default function Form(){
                 <TextInput
                 style={style.input} 
                 keyboardType='name-phone-pad'
+                onChangeText={validationName}
                 />
+
                 <Text style={style.formLabel}>Sexo</Text>
                 <TouchableOpacity style={style.select}>
                     <Text>Selecione</Text>
@@ -75,6 +67,7 @@ export default function Form(){
                 style={style.input} 
                 placeholder='Digite seu e-mail'
                 keyboardType='email-address'
+                onChangeText={validationEmail}
                 />
                 <Text style={style.formLabel}>Telefone</Text>
                 <TextInputMask
@@ -89,14 +82,7 @@ export default function Form(){
                 onChangeText={text => setCell(text)}
                 placeholder='(00) 9 0000-0000'
                 />
-                <Text style={style.formLabel}>CPF</Text>
-                <TextInputMask 
-                style={style.input}
-                type={'cpf'}
-                value={cpf}
-                onChange={validationCpf()}
-                placeholder='000.000.000.00'
-                />
+                <Cpf/>
                 <Cep/>
                 <View style={{padding:10}}>
                     <Button
@@ -107,7 +93,7 @@ export default function Form(){
                     }}
                     titleStyle={{ fontSize: 20 }}
                     onPress={() => validation()}
-                    disabled={errorName || errorEmail || errorCpf }
+                    disabled={errorName || errorEmail }
                     
                     />
                 </View>
