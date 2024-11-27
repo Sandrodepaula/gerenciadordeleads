@@ -22,15 +22,19 @@ export default function Login({ navigation }){
         setErrorPassword(!regex.test(text));
       };
 
+    const forgorPassword = () =>{
+        navigation.navigate('Leads')
+            
+    }
+
     const validation = () =>{
         if (!errorEmail && !errorPassword){
             navigation.navigate('Form')
         }
     }
 
-    const forgorPassword = () =>{
-        navigation.navigate('Leads')
-       
+    const register = () =>{
+        navigation.navigate('Register')
     }
 
 
@@ -47,7 +51,6 @@ export default function Login({ navigation }){
             <View>
                 <Text style={style.formLabel} >Email</Text>
                 <View style={{flexDirection: 'row', alignItems:'center'}}>
-                    <Icon name='mail-outline' size={24} color='gray' />
                     <TextInput
                     style={style.input}
                     placeholder='digite seu e-mail'
@@ -82,7 +85,7 @@ export default function Login({ navigation }){
             </View>
                                   
             <Text style={style.createdAcount}>Não tem cadastro? 
-                <Text onPress={alert}
+                <Text onPress={register}
                 style={{color:'rgba(254, 114, 53, 1)'}}> Criar conta</Text>
                 
             </Text>

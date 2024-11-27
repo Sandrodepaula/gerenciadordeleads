@@ -3,9 +3,11 @@ import { Input, Button, Text } from '@rneui/themed';
 import React, {useState} from 'react';
 import style from './style';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { TextInputMask } from 'react-native-masked-text'
-import Cep from './Cep'
+import { TextInputMask } from 'react-native-masked-text';
+import Cep from './Cep';
 import Cpf from './Cpf';
+import DateCalendar from './DateCalendar';
+import { Calendar } from 'react-native-calendars';
 
 export default function Form(){
     const [nome, setName] = useState('');
@@ -45,6 +47,7 @@ export default function Form(){
                 keyboardType='name-phone-pad'
                 onChangeText={validationName}
                 />
+                {errorName && <Text style={{color:'red'}}>Campo obrigatório</Text>}
 
                 <Text style={style.formLabel}>Sexo</Text>
                 <TouchableOpacity style={style.select}>
@@ -52,7 +55,7 @@ export default function Form(){
                     <Icon name='mail' size={20}/>
                 </TouchableOpacity>
                 
-                <Text style={style.formLabel}>Data de Nascimento</Text>
+                <Text style={style.formLabel} >Data de Nascimento</Text>
                 <TextInputMask
                 style={style.inputDate}
                 type={'datetime'}
@@ -61,13 +64,16 @@ export default function Form(){
                 }}
                 value={date}
                 onChangeText={text => setDate(text)}
+                
                 />
+                <Calendar/>
                 <Text style={style.formLabel}>E-mail</Text>
                 <TextInput
                 style={style.input} 
                 placeholder='Digite seu e-mail'
                 keyboardType='email-address'
                 onChangeText={validationEmail}
+                
                 />
                 <Text style={style.formLabel}>Telefone</Text>
                 <TextInputMask
@@ -82,6 +88,7 @@ export default function Form(){
                 onChangeText={text => setCell(text)}
                 placeholder='(00) 9 0000-0000'
                 />
+                
                 <Cpf/>
                 <Cep/>
                 <View style={{padding:10}}>
