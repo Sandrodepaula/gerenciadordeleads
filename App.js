@@ -7,7 +7,9 @@ import Leads from './src/pages/Leads';
 import {ImageBackground, Image, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { DatabaseConnection } from './src/service/database/database-connection';
 
+const db = DatabaseConnection.getConnection();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
