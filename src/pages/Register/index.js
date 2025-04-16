@@ -54,7 +54,7 @@ export default function Register(){
         }
 
         //Banco de dados
-        db.transaction(function(tx){
+        db.transaction(tx => {
             tx.executeSql(
                 'INSERT INTO table_user (user_name, user_password, user_email) VALUES (?,?,?)',
                 [name, password, email], 
