@@ -51,8 +51,8 @@ export function Content() {
 
   return (
     <View style={styles.contentContainer}>
-      {todos.map((todo, index) => (
-        <View style={styles.todoItemContainer} key={index}>
+      {todos.map((todo) => (
+        <View style={styles.todoItemContainer} key={todo.id}>
           <Text>{`${todo.intValue} - ${todo.value}`}</Text>
         </View>
       ))}

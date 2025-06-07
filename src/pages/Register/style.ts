@@ -14,7 +14,7 @@ const style = StyleSheet.create({
         fontSize:14,
         paddingTop:15,
         paddingBottom:10,
-        paddingRight:250,
+        paddingRight: '70%',
         fontWeight:'bold',
         
     },
