@@ -20,14 +20,14 @@ export default function Form(){
     const validationEmail = (text) => {
         setEmail(text);
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(setEmail === '' || !regex.test(text)){
+        if(text === '' || !regex.test(text)){
             setErrorEmail(true);
         }
             
     };
 
     const validationName = () =>{
-        if (setName === ''){
+        if (nome === ''){
             setErrorName(true)
         }
     }

@@ -25,15 +25,14 @@ LocaleConfig.locales['fr'] = {
 LocaleConfig.defaultLocale = 'fr';
 
 const DateCalendar = ()=> {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [showCalendar, setShowCalendar] = useState(false);
 
   return(
 
       <Calendar
-        onDayPress={day => {
+        onDayPress={(day: { dateString: React.SetStateAction<string>; }) => {
           setSelectedDate(day.dateString);
-
         }}
         markedDates={{
           [selectedDate]: {

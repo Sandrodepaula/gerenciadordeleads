@@ -7,9 +7,11 @@ import { TextInputMask } from 'react-native-masked-text'
 
 export default function Cep(){
     const [cep, setCep] = useState('');
-    const [estado, setEstado] = useState(null);
+    const [estado, setEstado] = useState<string | null>(null);
     const [logradouro, setLogradouro] = useState('');
-    const [endereco, setEndereco] = useState('');
+    const [endereco, setEndereco] = useState<{ estado?: string; logradouro?: string }>(
+      {}
+    );
     
     
     useEffect(() => {
@@ -40,9 +42,8 @@ export default function Cep(){
                 
             <Text style={style.formLabel}>Estado</Text>
             <TextInput
-            style={style.input} 
+            value={estado || endereco.estado || ''}   
             placeholder=' '
-            value={estado || endereco.estado}   
             onChangeText={(text)=> setEstado(text)}
             keyboardType='name-phone-pad'
             />

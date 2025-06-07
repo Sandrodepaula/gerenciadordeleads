@@ -61,13 +61,14 @@ export default function Login({ navigation }){
                 {errorEmail && <Text style={{color:'red'}}>Email inválido</Text>}
 
                 <Text style={style.formLabel}>Senha</Text>
-                <TextInput
-                leftIcon={<Icon name='lock' size={24} color='gray'/>}
-                style={style.input}
-                placeholder='digite sua senha' 
-                onChangeText={validationPassword}
-                secureTextEntry={true}
-                />
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <TextInput
+                        style={style.input}
+                        placeholder='digite sua senha' 
+                        onChangeText={validationPassword}
+                        secureTextEntry={true}
+                    />
+                </View>
                 {errorPassword && <Text style={{color:'red'}}>Senha inválida</Text>}
             </View>
 
