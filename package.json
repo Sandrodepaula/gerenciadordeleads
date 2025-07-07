@@ -14,11 +14,14 @@
     "@react-navigation/native-stack": "^6.11.0",
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.8",
+    "bcrypt": "^6.0.0",
     "cpf-cnpj-validator": "^1.0.3",
     "expo": "^53.0.9",
     "expo-constants": "~17.1.6",
     "expo-sqlite": "~15.2.10",
     "expo-status-bar": "~2.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "react": "19.0.0",
     "react-native": "0.79.2",
     "react-native-calendars": "^1.1307.0",
@@ -27,7 +30,8 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
     "react-native-sqlite-storage": "^6.0.1",
-    "react-native-vector-icons": "^10.2.0"
+    "react-native-vector-icons": "^10.2.0",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -1,21 +1,31 @@
 import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
-    container:{
-        flex:1,
-        padding:15,
+    container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: '#f5f5f5',
     },
     h1:{
         color:'#FE7235',
-        textAlign:'center'
+        textAlign:'center',
+        fontSize: 40,
+        fontWeight: 'bold',
+    },
+    h2:{
+        color:'#000000',
+        textAlign:'center',
+        fontSize: 20,
     },
     formLabel:{
         color:'#FE7235',
-        fontSize:14,
+        fontSize:18,
         paddingTop:15,
         paddingBottom:10,
-        paddingRight: '70%',
-        fontWeight:'bold',
+        paddingRight: '50%',
+       
         
     },
   
@@ -32,6 +42,7 @@ const style = StyleSheet.create({
         width:350,
         backgroundColor:'#FFA835',
         borderRadius:50,
+        padding:10,
     },
    
 })

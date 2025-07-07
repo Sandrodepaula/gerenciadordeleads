@@ -9,6 +9,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
+import style from './style';
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabaseSync('users.db');
@@ -67,7 +68,7 @@ export default function App() {
           [fullName, email, password]
         )
         .then((result: any) => {
-          if (result.changes && result.changes > 0) {
+          if (result.changes && result.changes > 0) {// Verifica se a inserção foi bem-sucedida
             Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
             setFullName('');
             setEmail('');
@@ -77,7 +78,7 @@ export default function App() {
             Alert.alert('Erro', 'Não foi possível registrar o usuário.');
           }
         })
-        .catch((error: any) => {
+        .catch((error: any) => {// Captura erros específicos de inserção
           if (error.message && error.message.includes('UNIQUE constraint failed: users.email')) {
             Alert.alert('Erro', 'Este email já está cadastrado.');
           } else {
@@ -90,50 +91,58 @@ export default function App() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Criação de Usuário</Text>
+    <ScrollView>
+      <View style={style.container}>
+        <Text style={style.h1}>Registrar</Text>
+        <Text style={style.h2}>Crie aqui a sua conta</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome Completo"
-        value={fullName}
-        onChangeText={setFullName}
-        autoCapitalize="words"
-      />
+        <Text style={style.formLabel}>Nome completo</Text>
+        <TextInput
+          style={style.input}
+          placeholder="Nome Completo"
+          value={fullName}
+          onChangeText={setFullName}
+          autoCapitalize="words"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <Text style={style.formLabel}>Email</Text>
+        <TextInput
+          style={style.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <Text style={style.formLabel}>Senha</Text>
+        <TextInput
+          style={style.input}
+          placeholder="Senha"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Confirme a Senha"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Registrar</Text>
-      </TouchableOpacity>
+        <Text style={style.formLabel}>Confirme a senha</Text>
+        <TextInput
+          style={style.input}
+          placeholder="Confirme a Senha"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+        />
+        <View>
+        <TouchableOpacity onPress={handleRegister}>
+          <Text style={style.buttonAcess}>Cadastrar</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -175,4 +184,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-});
+});*/

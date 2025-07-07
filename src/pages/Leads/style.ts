@@ -4,55 +4,31 @@ const style = StyleSheet.create({
     container:{
         flex:1,
         padding:15,
-    },
-    h1:{
-        color:'#FE7235',
-        textAlign:'center'
-    },
-    formLabel:{
-        color:'rgba(0, 0, 0, 1);',
-        fontSize:14,
-        paddingTop:15,
-        paddingBottom:10,
-        paddingRight:250,
-        fontWeight:'bold',
+        backgroundColor:'rgb(239, 239, 239)',
         
     },
-  
-    input:{
-        height:50,
-        width:350,
-        fontSize:14,
-        textAlign:'center',
-        backgroundColor:'#ffffff',
-        borderRadius:12,
+
+    View:{
+        backgroundColor:'rgb(255, 255, 255)',
+        borderRadius:10,
+        padding:15,
     },
-    inputDate:{
-        padding:10,
-        height:50,
-        width:'40%',
-        fontSize:14,
-        backgroundColor:'#ffffff',
-        borderRadius:12,
+
+    buttonEdit:{
+        width:100,
+        backgroundColor:'#FFA835',
+        borderRadius:50,
+        marginTop:10,
+        marginBottom:10,
     },
-    select:{
-        height:50,
-        width:'40%',
-        fontSize:14,
-        padding:10,
-        backgroundColor:'#ffffff',
-        borderRadius:12,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
-    },
-  
+
     buttonAcess:{
         width:350,
         backgroundColor:'#FFA835',
         borderRadius:50,
     },
-   
+
+  
 })
 
 export default style

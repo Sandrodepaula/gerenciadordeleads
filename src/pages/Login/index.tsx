@@ -1,4 +1,4 @@
-import { Text, View, Image, ImageBackground, TextInput} from 'react-native';
+import { Text, View, Image, ImageBackground, TextInput, Alert} from 'react-native';
 import { Button, Icon, Input } from '@rneui/themed';
 import React, {useState} from 'react'; 
 import style from './style'
@@ -28,9 +28,11 @@ export default function Login({ navigation }){
     }
 
     const validation = () =>{
-        if (!errorEmail && !errorPassword){
-            navigation.navigate('Form')
-        }
+        if (!email || !password){
+            Alert.alert('Erro', 'Preencha todos os campos');
+            
+        }else navigation.navigate('Leads');
+        
     }
 
     const register = () =>{
