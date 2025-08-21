@@ -1,46 +1,63 @@
-// App.js
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-} from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
 import style from './style';
+import { DatabaseConnection } from '../../service/database/database-connection';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabaseSync('users.db');
-
-export default function App() {
+export default function Register({ navigation }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [users, setUsers] = useState([]);
+  const [db, setDb] = useState(null);
 
   useEffect(() => {
-    // Verificar se 'db' está definido antes de tentar usá-lo
-    if (db) {
-      db.execAsync(
-        `PRAGMA journal_mode = WAL;
-         PRAGMA foreign_keys = ON;
-         CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT UNIQUE, password TEXT);`
-      ).catch((error: any) => {
-        console.error("Erro ao inicializar o banco de dados:", error);
-      });
-    } else {
-      console.error("Erro: O objeto 'db' não foi inicializado corretamente.");
-    }
+    const setupDatabase = async () => {
+      try {
+        const openedDb = await SQLite.openDatabaseAsync("database.db");
+        setDb(openedDb);
+        console.log('Banco de dados aberto com sucesso');
+        await createTable(openedDb);
+        await insertInitialData(openedDb);
+        await fetchUsers(openedDb);
+      } catch (error) {
+        console.error('Erro ao abrir o banco de dados:', error);
+      }
+    };
+    setupDatabase();
   }, []);
+
+  const createTable = async (database) => {
+    await database.execAsync(
+      'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT UNIQUE, password TEXT);'
+    );
+    console.log('Tabela users criada ou já existe');
+
+  };
+  const insertInitialData = async (database) => {
+    try {
+      const result = await database.getFirstAsync('SELECT COUNT(*) as count FROM users;');
+      if (result.count === 0) {
+        await database.withTransactionAsync(async () => {
+        await database.runAsync( 'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)', ['João', 'joao@example.com', 'password123']);
+        await database.runAsync( 'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)', ['Maria', 'maria@example.com', 'password456']);       
+      });
+      console.log('Dados iniciais inseridos na tabela users');
+      }
+    } catch (error) {
+      console.error('Erro ao inserir dados iniciais:', error);
+    }
+ };
+
 
   const validateEmail = (email: string) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!fullName || !email || !password || !confirmPassword) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
@@ -62,14 +79,14 @@ export default function App() {
     }
 
     if (db) {
-      db
-        .runAsync(
+      await db.runAsync(
           'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)',
           [fullName, email, password]
         )
         .then((result: any) => {
           if (result.changes && result.changes > 0) {// Verifica se a inserção foi bem-sucedida
             Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
+            console.log('Nome:'+ fullName,'Email:'+ email, 'Senha: '+password);
             setFullName('');
             setEmail('');
             setPassword('');
@@ -89,99 +106,86 @@ export default function App() {
       Alert.alert('Erro', 'Banco de dados não está aberto.');
     }
   };
+  const fetchUsers = async (database) => {
+    try {
+      const allUsers = await database.getAllAsync('SELECT * FROM users;');
+      setUsers(allUsers);
+      console.log('Usuários carregados:', allUsers);
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+      Alert.alert('Erro', 'Não foi possível carregar os usuários.');
+    }
+  };
 
-  return (
-    <ScrollView>
-      <View style={style.container}>
-        <Text style={style.h1}>Registrar</Text>
-        <Text style={style.h2}>Crie aqui a sua conta</Text>
-
-        <Text style={style.formLabel}>Nome completo</Text>
-        <TextInput
-          style={style.input}
-          placeholder="Nome Completo"
-          value={fullName}
-          onChangeText={setFullName}
-          autoCapitalize="words"
-        />
-
-        <Text style={style.formLabel}>Email</Text>
-        <TextInput
-          style={style.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-
-        <Text style={style.formLabel}>Senha</Text>
-        <TextInput
-          style={style.input}
-          placeholder="Senha"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-
-        <Text style={style.formLabel}>Confirme a senha</Text>
-        <TextInput
-          style={style.input}
-          placeholder="Confirme a Senha"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
-        <View>
-        <TouchableOpacity onPress={handleRegister}>
-          <Text style={style.buttonAcess}>Cadastrar</Text>
-        </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+  // Renderiza o componente de registro
+  const renderItem = ({ item }) => (
+    <View style={style.leadItem}> 
+      <Text style={style.leadItem}>Nome: {item.fullName}</Text>
+      <Text style={style.leadItem}>Email: {item.email}</Text>
+    </View>
   );
-};
+  return (
+      <SafeAreaView>
+        
+        <View style={style.container}>
+          <Text style={style.h1}>Registrar</Text>
+          <Text style={style.h2}>Crie aqui a sua conta</Text>
 
-/*const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#333',
-  },
-  input: {
-    width: '100%',
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-  button: {
-    width: '100%',
-    backgroundColor: '#007bff',
-    padding: 18,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});*/
+          <Text style={style.formLabel}>Nome completo</Text>
+          <TextInput
+            style={style.input}
+            placeholder="Nome Completo"
+            value={fullName}
+            onChangeText={setFullName}
+            autoCapitalize="words"
+          />
+
+          <Text style={style.formLabel}>Email</Text>
+          <TextInput
+            style={style.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <Text style={style.formLabel}>Senha</Text>
+          <TextInput
+            style={style.input}
+            placeholder="Senha"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          <Text style={style.formLabel}>Confirme a senha</Text>
+          <TextInput
+            style={style.input}
+            placeholder="Confirme a Senha"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+          <View>
+          <TouchableOpacity onPress={handleRegister}>
+            <Text style={style.buttonAcess}>Cadastrar</Text>
+          </TouchableOpacity>
+          </View>
+          
+            <ScrollView>
+            <Text>Usuarios: </Text>        
+            <FlatList style={style.usuariosContainer}
+              data={users}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+              ListEmptyComponent={<Text style={style.leadItem}>Nenhum usuário cadastrado.</Text>}
+            />
+            </ScrollView>  
+          </View>
+        </SafeAreaView>
+    
+   
+  );
+}
+

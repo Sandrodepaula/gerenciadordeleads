@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     container: {
@@ -43,6 +43,20 @@ const style = StyleSheet.create({
         backgroundColor:'#FFA835',
         borderRadius:50,
         padding:10,
+    },
+
+    leadItem: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ee7913ff',
+    },
+
+    usuariosContainer: {
+        flex: 1,
+        height: 200,
+        width: '100%',
+        backgroundColor: '#ffcacaff',
+        paddingTop: 20,
     },
    
 })

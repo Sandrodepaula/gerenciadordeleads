@@ -8,32 +8,31 @@ import Cep from './Cep';
 import Cpf from './Cpf';
 import DateCalendar from './DateCalendar';
 import { Calendar } from 'react-native-calendars';
-import * as SQLite from 'expo-sqlite';
+import { DatabaseConnection } from '../../service/database/database-connection';
 
-const db = SQLite.openDatabaseSync('leads.db');
+const db = DatabaseConnection.getConnection();
 
-export default function Form(){
-    const [nome, setName] = useState('');
+export default function CadastroLeads({ navigation }) {
+    const [name, setName] = useState('');
     const [cell, setCell] = useState('');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorName, setErrorName] = useState(false);
 
-        useEffect(() => {
-            // Verificar se 'db' está definido antes de tentar usá-lo
-            if (db) {
-            db.execAsync(
-                `PRAGMA journal_mode = WAL;
-                PRAGMA foreign_keys = ON;
-                CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, cell NUMBER, email TEXT UNIQUE);`
-            ).catch((error: any) => {
-                console.error("Erro ao inicializar o banco de dados:", error);
-            });
-            } else {
-            console.error("Erro: O objeto 'db' não foi inicializado corretamente.");
-            }
-        }, []);
+    useEffect(() => {
+      if (db) {
+        db.execAsync(
+            `PRAGMA journal_mode = WAL;
+            PRAGMA foreign_keys = ON;
+            CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, cell NUMBER, email TEXT UNIQUE);`
+        ).catch((error: any) => {
+            console.error("Erro ao inicializar o banco de dados:", error);
+        });
+      } else {
+      console.error("Erro: O objeto 'db' não foi inicializado corretamente.");
+      }
+      }, []);
     
     const validationEmail = (text) => {
         setEmail(text);
@@ -45,7 +44,7 @@ export default function Form(){
     };
 
     const validationName = () =>{
-        if (nome === ''){
+        if (name === ''){
             setErrorName(true)
         }
     }
@@ -59,16 +58,16 @@ export default function Form(){
           db
             .runAsync(
               'INSERT INTO leads (name, cell, email) VALUES (?, ?, ?)',
-              [nome, cell, email]
+              [name, cell, email]
             )
             .then((result: any) => {
               if (result.changes && result.changes > 0) {// Verifica se a inserção foi bem-sucedida
-                Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
+                Alert.alert('Sucesso', 'Lead registrado com sucesso!');
                 setName('');
                 setEmail('');
                 setCell('');
               } else {
-                Alert.alert('Erro', 'Não foi possível registrar o usuário.');
+                Alert.alert('Erro', 'Não foi possível registrar o Lead.');
               }
             })
             .catch((error: any) => {// Captura erros específicos de inserção

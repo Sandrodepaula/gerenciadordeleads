@@ -1,4 +1,4 @@
-import { Text, View, Image, ImageBackground, TextInput, Alert} from 'react-native';
+import { Text, View, Image, ImageBackground, TextInput, Alert, TouchableOpacity} from 'react-native';
 import { Button, Icon, Input } from '@rneui/themed';
 import React, {useState} from 'react'; 
 import style from './style'
@@ -31,7 +31,7 @@ export default function Login({ navigation }){
         if (!email || !password){
             Alert.alert('Erro', 'Preencha todos os campos');
             
-        }else navigation.navigate('Leads');
+        }else navigation.navigate('Register');
         
     }
 
@@ -75,7 +75,7 @@ export default function Login({ navigation }){
             </View>
 
             <Text style={style.forgot} onPress={forgorPassword }>Esqueceu sua senha?</Text>
-            <View>
+
                 <Button
                 title="ACESSE"
                 buttonStyle={{backgroundColor: 'rgba(255, 168, 53, 1)',
@@ -85,14 +85,18 @@ export default function Login({ navigation }){
                 onPress={() => validation()}
                 disabled={errorEmail || errorPassword}
                 />
-            </View>
-                                  
+
+                                 
             <Text style={style.createdAcount}>Não tem cadastro? 
-                <Text onPress={register}
-                style={{color:'rgba(254, 114, 53, 1)'}}> Criar conta</Text>
-                
+                <TouchableOpacity> 
+                <Text 
+                onPress={register}
+                style={{color:'rgba(254, 114, 53, 1)'}}> Criar conta
+                </Text>
+                </TouchableOpacity>
+
             </Text>
-           
+
         </View>
       
     );
