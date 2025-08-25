@@ -31,7 +31,7 @@ export default function Login({ navigation }){
         if (!email || !password){
             Alert.alert('Erro', 'Preencha todos os campos');
             
-        }else navigation.navigate('Register');
+        }else navigation.navigate('Leads');
         
     }
 

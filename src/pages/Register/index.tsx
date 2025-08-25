@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
 import style from './style';
-import { DatabaseConnection } from '../../service/database/database-connection';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SQLite from 'expo-sqlite';
 
@@ -19,9 +18,9 @@ export default function Register({ navigation }) {
         const openedDb = await SQLite.openDatabaseAsync("database.db");
         setDb(openedDb);
         console.log('Banco de dados aberto com sucesso');
-        await createTable(openedDb);
-        await insertInitialData(openedDb);
-        await fetchUsers(openedDb);
+        await createTable(openedDb);// Cria a tabela se não existir
+        await insertInitialData(openedDb);// Insere dados iniciais se a tabela estiver vazia
+        await fetchUsers(openedDb);// Busca os usuários após a criação da tabela e inserção de dados
       } catch (error) {
         console.error('Erro ao abrir o banco de dados:', error);
       }
@@ -36,9 +35,9 @@ export default function Register({ navigation }) {
     console.log('Tabela users criada ou já existe');
 
   };
-  const insertInitialData = async (database) => {
+  const insertInitialData = async (database) => {// Insere dados iniciais se a tabela estiver vazia
     try {
-      const result = await database.getFirstAsync('SELECT COUNT(*) as count FROM users;');
+      const result = await database.getFirstAsync('SELECT COUNT(*) as count FROM users;');// Verifica se a tabela está vazia
       if (result.count === 0) {
         await database.withTransactionAsync(async () => {
         await database.runAsync( 'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)', ['João', 'joao@example.com', 'password123']);
@@ -61,6 +60,7 @@ export default function Register({ navigation }) {
     if (!fullName || !email || !password || !confirmPassword) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
+
     }
 
     if (!validateEmail(email)) {
@@ -106,24 +106,19 @@ export default function Register({ navigation }) {
       Alert.alert('Erro', 'Banco de dados não está aberto.');
     }
   };
-  const fetchUsers = async (database) => {
+  const fetchUsers = async (database) => {// Busca todos os usuários da tabela
     try {
       const allUsers = await database.getAllAsync('SELECT * FROM users;');
       setUsers(allUsers);
       console.log('Usuários carregados:', allUsers);
+      navigation.navigate('Leads', { users: allUsers }); // Navega para a página de Leads com os usuários carregados
     } catch (error) {
       console.error('Erro ao buscar usuários:', error);
       Alert.alert('Erro', 'Não foi possível carregar os usuários.');
     }
   };
 
-  // Renderiza o componente de registro
-  const renderItem = ({ item }) => (
-    <View style={style.leadItem}> 
-      <Text style={style.leadItem}>Nome: {item.fullName}</Text>
-      <Text style={style.leadItem}>Email: {item.email}</Text>
-    </View>
-  );
+
   return (
       <SafeAreaView>
         
@@ -172,17 +167,8 @@ export default function Register({ navigation }) {
             <Text style={style.buttonAcess}>Cadastrar</Text>
           </TouchableOpacity>
           </View>
-          
-            <ScrollView>
-            <Text>Usuarios: </Text>        
-            <FlatList style={style.usuariosContainer}
-              data={users}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              ListEmptyComponent={<Text style={style.leadItem}>Nenhum usuário cadastrado.</Text>}
-            />
-            </ScrollView>  
-          </View>
+  
+        </View>
         </SafeAreaView>
     
    

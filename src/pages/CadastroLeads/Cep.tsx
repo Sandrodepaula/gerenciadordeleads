@@ -9,9 +9,7 @@ export default function Cep(){
     const [cep, setCep] = useState('');
     const [estado, setEstado] = useState<string | null>(null);
     const [logradouro, setLogradouro] = useState('');
-    const [endereco, setEndereco] = useState<{ estado?: string; logradouro?: string }>(
-      {}
-    );
+    const [endereco, setEndereco] = useState<{ estado?: string; logradouro?: string }>({});
     
     
     useEffect(() => {

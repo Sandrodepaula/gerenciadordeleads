@@ -29,6 +29,20 @@ const style = StyleSheet.create({
         borderRadius:50,
     },
 
+    leadItem: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ee7913ff',
+    },
+
+    usuariosContainer: {
+        flex: 1,
+        height: 200,
+        width: '100%',
+        backgroundColor: '#ffcacaff',
+        paddingTop: 20,
+    },
+
   
 })
 

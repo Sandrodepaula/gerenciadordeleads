@@ -20,19 +20,7 @@ export default function CadastroLeads({ navigation }) {
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorName, setErrorName] = useState(false);
 
-    useEffect(() => {
-      if (db) {
-        db.execAsync(
-            `PRAGMA journal_mode = WAL;
-            PRAGMA foreign_keys = ON;
-            CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, cell NUMBER, email TEXT UNIQUE);`
-        ).catch((error: any) => {
-            console.error("Erro ao inicializar o banco de dados:", error);
-        });
-      } else {
-      console.error("Erro: O objeto 'db' não foi inicializado corretamente.");
-      }
-      }, []);
+
     
     const validationEmail = (text) => {
         setEmail(text);
@@ -54,32 +42,6 @@ export default function CadastroLeads({ navigation }) {
         console.log('Cadastrou');
     }
 
-    if (db) {
-          db
-            .runAsync(
-              'INSERT INTO leads (name, cell, email) VALUES (?, ?, ?)',
-              [name, cell, email]
-            )
-            .then((result: any) => {
-              if (result.changes && result.changes > 0) {// Verifica se a inserção foi bem-sucedida
-                Alert.alert('Sucesso', 'Lead registrado com sucesso!');
-                setName('');
-                setEmail('');
-                setCell('');
-              } else {
-                Alert.alert('Erro', 'Não foi possível registrar o Lead.');
-              }
-            })
-            .catch((error: any) => {// Captura erros específicos de inserção
-              if (error.message && error.message.includes('UNIQUE constraint failed: leads.email')) {
-                Alert.alert('Erro', 'Este email já está cadastrado.');
-              } else {
-                Alert.alert('Erro', `Erro ao registrar usuário: ${error.message}`);
-              }
-            });
-        } else {
-          Alert.alert('Erro', 'Banco de dados não está aberto.');
-        }
       
 
     return(
@@ -108,10 +70,9 @@ export default function CadastroLeads({ navigation }) {
                     format:'DD/MM/YYYY'
                 }}
                 value={date}
-                onChangeText={text => setDate(text)}
-                
+                onChangeText={text => setDate(text)}           
                 />
-                <Calendar/>
+                
                 <Text style={style.formLabel}>E-mail</Text>
                 <TextInput
                 style={style.input} 
