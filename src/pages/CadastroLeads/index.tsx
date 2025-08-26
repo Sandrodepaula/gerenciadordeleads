@@ -8,9 +8,9 @@ import Cep from './Cep';
 import Cpf from './Cpf';
 import DateCalendar from './DateCalendar';
 import { Calendar } from 'react-native-calendars';
-import { DatabaseConnection } from '../../service/database/database-connection';
 
-const db = DatabaseConnection.getConnection();
+
+
 
 export default function CadastroLeads({ navigation }) {
     const [name, setName] = useState('');

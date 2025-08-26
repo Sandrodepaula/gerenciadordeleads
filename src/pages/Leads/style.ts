@@ -29,6 +29,14 @@ const style = StyleSheet.create({
         borderRadius:50,
     },
 
+    buttonDelete:{
+        backgroundColor: 'rgba(142, 107, 107, 1)',
+        borderRadius: 50,
+        width:100,
+        marginTop:10,
+        
+    },
+
     leadItem: {
         padding: 10,
         borderBottomWidth: 1,
@@ -37,7 +45,7 @@ const style = StyleSheet.create({
 
     usuariosContainer: {
         flex: 1,
-        height: 200,
+        height: '100%',
         width: '100%',
         backgroundColor: '#ffcacaff',
         paddingTop: 20,

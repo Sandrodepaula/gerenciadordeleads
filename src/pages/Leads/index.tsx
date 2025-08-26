@@ -1,12 +1,11 @@
 
 import {TextInput, View, ScrollView, TouchableOpacity, SafeAreaView, FlatList, Alert} from 'react-native';
 import { Input, Button, Text } from '@rneui/themed';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, use} from 'react';
 import style from './style';
 import CadastroLeads from '../CadastroLeads';
-import * as SQLite from 'expo-sqlite';
-import { useRoute } from '@react-navigation/native';
-
+import { useFocusEffect } from '@react-navigation/native';
+import { fetchLeads, addLeads, deleteLead } from '../../service/database/database-connection';
 
 export default function Leads({ navigation }) {
   const [name, setName] = useState('');
@@ -18,13 +17,34 @@ export default function Leads({ navigation }) {
   const [leads, setLeads] = useState([]);
   const [db, setDb] = useState(null);
 
-  const route = useRoute();
-  const { users } = route.params || {};// Recebe os usuários como parâmetro de navegação
+  const loadLeads = async () => {
+    const loadLeads = await fetchLeads();
+    setLeads(loadLeads);
+
+  };
+
+
+  const delete_Lead = async (id: number) => {
+    await deleteLead(id);
+    await loadLeads();
+  };
+
+  useFocusEffect(// Recarrega a lista de usuários quando a tela ganha foco
+    React.useCallback(() => {
+      loadLeads();
+    }, [])
+  );
+
 
   const renderItem = ({ item }) => (
-    <View style={style.leadItem}> 
-      <Text style={style.leadItem}>Nome: {item.name}</Text>
-      <Text style={style.leadItem}>Email: {item.email}</Text>
+    <View style={style.usuariosContainer}>
+      <View style={style.leadItem}> 
+        <Text style={style.leadItem}>Nome: {item.name}</Text>
+        <Text style={style.leadItem}>Email: {item.email}</Text>
+      </View>
+      <Button style={style.buttonDelete} title="Deletar"
+        onPress={() => delete_Lead(item.id)}
+      />
     </View>
   );
 
@@ -35,14 +55,16 @@ export default function Leads({ navigation }) {
       <View>
         <Text>Lista de Leads</Text>
             <ScrollView>
-            <Text>Usuarios: </Text>        
+                    
             <FlatList style={style.usuariosContainer}
-              data={users}
+              data={leads}
               renderItem={renderItem}
               keyExtractor={item => item.id.toString()}
               ListEmptyComponent={<Text style={style.leadItem}>Nenhum usuário cadastrado.</Text>}
+              contentContainerStyle={leads.length === 0 && { flex: 1, justifyContent: 'center', alignItems: 'center' }}
               horizontal={true}
             />
+            
             </ScrollView>
       </View>
       <View style={style.buttonAcess}>
@@ -52,7 +74,7 @@ export default function Leads({ navigation }) {
             backgroundColor: 'rgb(182, 37, 37)',
             borderRadius: 50,
           }}
-          onPress={() => CadastroLeads(navigation)}
+       
         />
       </View>
     </SafeAreaView>
