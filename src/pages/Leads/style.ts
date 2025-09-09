@@ -4,16 +4,10 @@ const style = StyleSheet.create({
     container:{
         flex:1,
         padding:15,
-        backgroundColor:'rgb(239, 239, 239)',
+        backgroundColor:'rgba(255, 255, 255, 0.72)',
         
     },
 
-    View:{
-        flex:1,
-        backgroundColor:'rgb(255, 255, 255)',
-        borderRadius:10,
-        padding:15,
-    },
 
     buttonEdit:{
         width:100,
@@ -32,7 +26,7 @@ const style = StyleSheet.create({
     buttonDelete:{
         backgroundColor: 'rgba(142, 107, 107, 1)',
         borderRadius: 50,
-        width:100,
+        width:50,
         marginTop:10,
         
     },
@@ -48,7 +42,9 @@ const style = StyleSheet.create({
         height: '100%',
         width: '100%',
         backgroundColor: '#ffcacaff',
-        paddingTop: 20,
+        padding: 20,
+        borderRadius: 10,
+        marginBottom: 20,
     },
 
   

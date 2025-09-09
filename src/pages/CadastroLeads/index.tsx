@@ -115,6 +115,17 @@ export default function CadastroLeads({ navigation }) {
                     
                     />
                 </View>
+                <View style={{padding:10}}>
+                    <Button
+                    title="Leads Cadastrados"
+                    buttonStyle={{backgroundColor: 'rgba(0, 0, 0, 1)',
+                    borderRadius: 50,
+                    padding:10
+                    }}
+                    titleStyle={{ fontSize: 20 }}               
+                    onPress={() => navigation.navigate('Leads')}
+                    />
+                </View>
 
             </ScrollView>
             

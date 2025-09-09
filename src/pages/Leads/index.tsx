@@ -42,10 +42,8 @@ export default function Leads({ navigation }) {
         <Text style={style.leadItem}>Nome: {item.name}</Text>
         <Text style={style.leadItem}>Email: {item.email}</Text>
         <Text style={style.leadItem}>Celular: {item.cell}</Text>
-        <Text style={style.leadItem}>Cidade: {item.city}</Text>
-        <Text style={style.leadItem}>Estado: {item.stateUf}</Text>
       </View>
-      <Button style={style.buttonDelete} title="Deletar"
+      <Button title="Deletar"
         onPress={() => delete_Lead(item.id)}
       />
     </View>
@@ -54,32 +52,32 @@ export default function Leads({ navigation }) {
   
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View>
-        <Text>Lista de Leads</Text>
+    <SafeAreaView style={style.container}>
+      <Text>Leads</Text>
             <ScrollView>
                     
-            <FlatList style={style.usuariosContainer}
+            <FlatList
               data={leads}
               renderItem={renderItem}
               keyExtractor={item => item.id.toString()}
               ListEmptyComponent={<Text style={style.leadItem}>Nenhum usuário cadastrado.</Text>}
               contentContainerStyle={leads.length === 0 && { flex: 1, justifyContent: 'center', alignItems: 'center' }}
-              horizontal={true}
-            />
             
+            />
+            <View>
+              <Button
+                title={'Cadastrar + '}
+                buttonStyle={{
+
+                }}
+                onPress = {() => navigation.navigate('CadastroLeads')}
+              />
+            </View>
+
+
             </ScrollView>
-      </View>
-      <View style={style.buttonAcess}>
-        <Button
-          title={'Cadastrar + '}
-          buttonStyle={{
-            backgroundColor: 'rgb(182, 37, 37)',
-            borderRadius: 50,
-          }}
-       
-        />
-      </View>
+    
+
     </SafeAreaView>
   );
 };
