@@ -136,7 +136,7 @@ export const addLeads = async (name: string, email: string, cell: string, city: 
   }
   try {
     await db.runAsync(
-      'INSERT INTO leads (name, email, cell, city, stateUf) VALUES (?, ?, ?,?,?);',
+      'INSERT INTO leads (name, email, cell, city, stateUf) VALUES (?, ?, ?, ?, ?);',
       [name, email, cell, city, stateUf]
     );
     console.log('Cliente adicionado com sucesso');

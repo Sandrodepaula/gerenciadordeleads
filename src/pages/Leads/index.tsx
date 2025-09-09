@@ -41,6 +41,9 @@ export default function Leads({ navigation }) {
       <View style={style.leadItem}> 
         <Text style={style.leadItem}>Nome: {item.name}</Text>
         <Text style={style.leadItem}>Email: {item.email}</Text>
+        <Text style={style.leadItem}>Celular: {item.cell}</Text>
+        <Text style={style.leadItem}>Cidade: {item.city}</Text>
+        <Text style={style.leadItem}>Estado: {item.stateUf}</Text>
       </View>
       <Button style={style.buttonDelete} title="Deletar"
         onPress={() => delete_Lead(item.id)}

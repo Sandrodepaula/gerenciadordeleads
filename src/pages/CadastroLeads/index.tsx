@@ -8,7 +8,7 @@ import Cep from './Cep';
 import Cpf from './Cpf';
 import DateCalendar from './DateCalendar';
 import { Calendar } from 'react-native-calendars';
-
+import { addLeads, fetchLeads } from '../../service/database/database-connection';
 
 
 
@@ -17,8 +17,10 @@ export default function CadastroLeads({ navigation }) {
     const [cell, setCell] = useState('');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
+    const [city, setCity] = useState('');
+    const [stateUf, setStateUf] = useState('');
     const [errorEmail, setErrorEmail] = useState(false)
-    const [errorName, setErrorName] = useState(false);
+    const [errorName, setErrorName] = useState( false);
 
 
     
@@ -31,18 +33,17 @@ export default function CadastroLeads({ navigation }) {
             
     };
 
-    const validationName = () =>{
-        if (name === ''){
-            setErrorName(true)
+    const handleAddLead = async () => {
+        try {
+            await addLeads(name, email, cell, city, stateUf);
+            Alert.alert('Sucesso', 'Lead cadastrado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao adicionar lead:', error);
+            Alert.alert('Erro', 'Ocorreu um erro ao cadastrar o lead.');
         }
-    }
+        fetchLeads();// Atualiza a lista de usuários após a inserção
+    };
 
-    
-    const validation = () =>{
-        console.log('Cadastrou');
-    }
-
-      
 
     return(
         <View style={style.container}>
@@ -52,15 +53,10 @@ export default function CadastroLeads({ navigation }) {
                 <TextInput
                 style={style.input} 
                 keyboardType='name-phone-pad'
-                onChangeText={validationName}
+                onChangeText={setName}
                 />
                 {errorName && <Text style={{color:'red'}}>Campo obrigatório</Text>}
 
-                <Text style={style.formLabel}>Sexo</Text>
-                <TouchableOpacity style={style.select}>
-                    <Text>Selecione</Text>
-                    <Icon name='mail' size={20}/>
-                </TouchableOpacity>
                 
                 <Text style={style.formLabel} >Data de Nascimento</Text>
                 <TextInputMask
@@ -94,9 +90,18 @@ export default function CadastroLeads({ navigation }) {
                 onChangeText={text => setCell(text)}
                 placeholder='(00) 9 0000-0000'
                 />
+                <Text style={style.formLabel}>Cidade</Text>
+                <TextInput
+                style={style.input}
+                onChangeText={setCity}
+                />
+                <Text style={style.formLabel}>Estado (UF)</Text>
+                <TextInput
+                style={style.input}
+                onChangeText={setStateUf}
+                maxLength={2}
+                />
                 
-                <Cpf/>
-                <Cep/>
                 <View style={{padding:10}}>
                     <Button
                     title="CADASTRAR"
@@ -105,8 +110,8 @@ export default function CadastroLeads({ navigation }) {
                     padding:10
                     }}
                     titleStyle={{ fontSize: 20 }}
-                    onPress={() => validation()}
-                    disabled={errorName || errorEmail }
+                    onPress={() => handleAddLead()}
+                    
                     
                     />
                 </View>
