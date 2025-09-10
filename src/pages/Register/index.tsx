@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
 import style from './style';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as SQLite from 'expo-sqlite';
+import { Button } from '@rneui/base';
+import { addUser } from '../../service/database/database-connection';
 
 export default function Register({ navigation }) {
   const [fullName, setFullName] = useState('');
@@ -12,43 +13,6 @@ export default function Register({ navigation }) {
   const [users, setUsers] = useState([]);
   const [db, setDb] = useState(null);
 
-  useEffect(() => {
-    const setupDatabase = async () => {
-      try {
-        const openedDb = await SQLite.openDatabaseAsync("database.db");
-        setDb(openedDb);
-        console.log('Banco de dados aberto com sucesso');
-        await createTable(openedDb);// Cria a tabela se não existir
-        await insertInitialData(openedDb);// Insere dados iniciais se a tabela estiver vazia
-        await fetchUsers(openedDb);// Busca os usuários após a criação da tabela e inserção de dados
-      } catch (error) {
-        console.error('Erro ao abrir o banco de dados:', error);
-      }
-    };
-    setupDatabase();
-  }, []);
-
-  const createTable = async (database) => {
-    await database.execAsync(
-      'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT UNIQUE, password TEXT);'
-    );
-    console.log('Tabela users criada ou já existe');
-
-  };
-  const insertInitialData = async (database) => {// Insere dados iniciais se a tabela estiver vazia
-    try {
-      const result = await database.getFirstAsync('SELECT COUNT(*) as count FROM users;');// Verifica se a tabela está vazia
-      if (result.count === 0) {
-        await database.withTransactionAsync(async () => {
-        await database.runAsync( 'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)', ['João', 'joao@example.com', 'password123']);
-        await database.runAsync( 'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)', ['Maria', 'maria@example.com', 'password456']);       
-      });
-      console.log('Dados iniciais inseridos na tabela users');
-      }
-    } catch (error) {
-      console.error('Erro ao inserir dados iniciais:', error);
-    }
- };
 
 
   const validateEmail = (email: string) => {
@@ -60,7 +24,6 @@ export default function Register({ navigation }) {
     if (!fullName || !email || !password || !confirmPassword) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
-
     }
 
     if (!validateEmail(email)) {
@@ -78,46 +41,15 @@ export default function Register({ navigation }) {
       return;
     }
 
-    if (db) {
-      await db.runAsync(
-          'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)',
-          [fullName, email, password]
-        )
-        .then((result: any) => {
-          if (result.changes && result.changes > 0) {// Verifica se a inserção foi bem-sucedida
-            Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
-            console.log('Nome:'+ fullName,'Email:'+ email, 'Senha: '+password);
-            setFullName('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-          } else {
-            Alert.alert('Erro', 'Não foi possível registrar o usuário.');
-          }
-        })
-        .catch((error: any) => {// Captura erros específicos de inserção
-          if (error.message && error.message.includes('UNIQUE constraint failed: users.email')) {
-            Alert.alert('Erro', 'Este email já está cadastrado.');
-          } else {
-            Alert.alert('Erro', `Erro ao registrar usuário: ${error.message}`);
-          }
-        });
-    } else {
-      Alert.alert('Erro', 'Banco de dados não está aberto.');
-    }
-  };
-  const fetchUsers = async (database) => {// Busca todos os usuários da tabela
     try {
-      const allUsers = await database.getAllAsync('SELECT * FROM users;');
-      setUsers(allUsers);
-      console.log('Usuários carregados:', allUsers);
-      navigation.navigate('Leads', { users: allUsers }); // Navega para a página de Leads com os usuários carregados
+      await addUser(fullName, email, password);
+      Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
+      navigation.navigate('Login');
     } catch (error) {
-      console.error('Erro ao buscar usuários:', error);
-      Alert.alert('Erro', 'Não foi possível carregar os usuários.');
+      console.error('Erro ao registrar usuário:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao registrar o usuário.');
     }
   };
-
 
   return (
       <SafeAreaView>
@@ -162,10 +94,12 @@ export default function Register({ navigation }) {
             onChangeText={setConfirmPassword}
             secureTextEntry
           />
-          <View>
-          <TouchableOpacity onPress={handleRegister}>
-            <Text style={style.buttonAcess}>Cadastrar</Text>
-          </TouchableOpacity>
+          <View style={{alignItems:'center', paddingTop:20}}>
+          <Button
+          title={"CADASTRAR"}
+          buttonStyle={style.buttonAcess}
+          onPress={handleRegister}
+          />
           </View>
   
         </View>
@@ -173,5 +107,4 @@ export default function Register({ navigation }) {
     
    
   );
-}
-
+};

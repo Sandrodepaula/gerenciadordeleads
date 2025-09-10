@@ -13,13 +13,10 @@ export default function App() {
   return (  
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="CadastroLeads" component={CadastroLeads} />
-          <Stack.Screen name = "Leads" component = {Leads} />          
-          
-
           <Stack.Screen options={{title:'', headerTransparent:true, headerShown: false}} name="Login" component={Login} />
           <Stack.Screen name = "Register" component = {Register} />
-         
+          <Stack.Screen name = "Leads" component = {Leads} />          
+          <Stack.Screen name="CadastroLeads" component={CadastroLeads} />
           
         </Stack.Navigator>
       </NavigationContainer>

@@ -35,11 +35,6 @@ export default function Login({ navigation }){
         
     }
 
-    const register = () =>{
-        navigation.navigate('Register')
-    }
-
-
     return(
         <View style={style.container}>
             <View style={{alignItems:'center', paddingTop:50}}>
@@ -90,7 +85,7 @@ export default function Login({ navigation }){
             <Text style={style.createdAcount}>Não tem cadastro? 
                 <TouchableOpacity> 
                 <Text 
-                onPress={register}
+                onPress = {() => navigation.navigate('Register')}
                 style={{color:'rgba(254, 114, 53, 1)'}}> Criar conta
                 </Text>
                 </TouchableOpacity>

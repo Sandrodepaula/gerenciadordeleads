@@ -5,7 +5,7 @@ let db = null;
 
 export const createTable = async (database) => {
   await database.execAsync(
-    'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT UNIQUE, password TEXT);'
+    'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, fullName TEXT, email TEXT, password TEXT);'
   );
   console.log('Tabela users criada ou já existe');
 
@@ -21,9 +21,6 @@ export const setupDatabase = async () => {
       db = await SQLite.openDatabaseAsync("database.db");
       console.log('Banco de dados aberto com sucesso');
       await createTable(db);// Cria a tabela se não existir
-      await insertInitialData();// Insere dados iniciais se a tabela estiver vazia
-      await fetchUsers();// Busca os usuários após a criação da tabela e inserção de dados
-      await fetchLeads();// Busca os leads após a criação da tabela e inserção de dados
     }
   } catch (error) {
     console.error('Erro ao abrir o banco de dados:', error);
@@ -84,7 +81,7 @@ export const addUser = async (fullName: string, email: string, password: string)
   }
   try {
     await db.runAsync(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?);',
+      'INSERT INTO users (fullName, email, password) VALUES (?, ?, ?);',
       [fullName, email, password]
     );
     console.log('Usuário adicionado com sucesso');

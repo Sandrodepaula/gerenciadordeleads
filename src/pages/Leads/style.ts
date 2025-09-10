@@ -3,18 +3,21 @@ import { StyleSheet } from "react-native";
 const style = StyleSheet.create({
     container:{
         flex:1,
+        flexDirection:'column',
+        alignItems:'center',
         padding:15,
-        backgroundColor:'rgba(255, 255, 255, 0.72)',
+        backgroundColor:'rgba(231, 231, 231, 0.51)',
         
     },
 
 
     buttonEdit:{
-        width:100,
+        width:80,
         backgroundColor:'#FFA835',
-        borderRadius:50,
+        borderRadius:10,
         marginTop:10,
-        marginBottom:10,
+        fontSize:12,
+        
     },
 
     buttonAcess:{
@@ -24,27 +27,44 @@ const style = StyleSheet.create({
     },
 
     buttonDelete:{
-        backgroundColor: 'rgba(142, 107, 107, 1)',
-        borderRadius: 50,
-        width:50,
+        backgroundColor: 'rgba(210, 36, 36, 1)',
+        borderRadius: 10,
+        width:80,
         marginTop:10,
+        fontSize:12,
+        
+    },
+
+    buttonRegister:{
+        width:150,
+        backgroundColor:'#ff7c09c9',
+        borderRadius:50,
+        marginTop:20, 
+        marginBottom:20,
+        fontSize:15,
+        shadowColor: '#0c0c0c6d',
+        shadowOpacity: 0.1,
+        elevation: 8,
         
     },
 
     leadItem: {
         padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ee7913ff',
+        fontSize: 15,
+
     },
 
     usuariosContainer: {
         flex: 1,
-        height: '100%',
+        height: '90%',
         width: '100%',
-        backgroundColor: '#ffcacaff',
+        backgroundColor: '#ffffffff',
         padding: 20,
         borderRadius: 10,
         marginBottom: 20,
+        shadowColor: '#fe7135ff',
+        shadowOpacity: 0.1,
+        elevation: 8,
     },
 
   

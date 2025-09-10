@@ -3,8 +3,6 @@ import { FlatList, StyleSheet } from "react-native";
 const style = StyleSheet.create({
     container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 15,
     backgroundColor: '#f5f5f5',
     },
@@ -24,14 +22,12 @@ const style = StyleSheet.create({
         fontSize:18,
         paddingTop:15,
         paddingBottom:10,
-        paddingRight: '50%',
-       
-        
+        textAlign:'left',
     },
   
     input:{
         height:50,
-        width:350,
+        width:317,
         fontSize:14,
         textAlign:'center',
         backgroundColor:'#ffffff',
@@ -39,7 +35,7 @@ const style = StyleSheet.create({
     },
    
     buttonAcess:{
-        width:350,
+        width:315,
         backgroundColor:'#FFA835',
         borderRadius:50,
         padding:10,

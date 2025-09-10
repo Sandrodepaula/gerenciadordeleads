@@ -5,7 +5,7 @@ import React, {useState, useEffect, use} from 'react';
 import style from './style';
 import CadastroLeads from '../CadastroLeads';
 import { useFocusEffect } from '@react-navigation/native';
-import { fetchLeads, addLeads, deleteLead } from '../../service/database/database-connection';
+import { fetchLeads, deleteLead } from '../../service/database/database-connection';
 
 export default function Leads({ navigation }) {
   const [name, setName] = useState('');
@@ -37,14 +37,18 @@ export default function Leads({ navigation }) {
 
 
   const renderItem = ({ item }) => (
-    <View style={style.usuariosContainer}>
-      <View style={style.leadItem}> 
+    <View style={style.usuariosContainer} >
+      <View> 
         <Text style={style.leadItem}>Nome: {item.name}</Text>
         <Text style={style.leadItem}>Email: {item.email}</Text>
         <Text style={style.leadItem}>Celular: {item.cell}</Text>
       </View>
       <Button title="Deletar"
+        buttonStyle={style.buttonDelete}
         onPress={() => delete_Lead(item.id)}
+      />
+      <Button title="Editar"
+        buttonStyle={style.buttonEdit}
       />
     </View>
   );
@@ -54,8 +58,7 @@ export default function Leads({ navigation }) {
   return (
     <SafeAreaView style={style.container}>
       <Text>Leads</Text>
-            <ScrollView>
-                    
+            
             <FlatList
               data={leads}
               renderItem={renderItem}
@@ -67,16 +70,11 @@ export default function Leads({ navigation }) {
             <View>
               <Button
                 title={'Cadastrar + '}
-                buttonStyle={{
-
-                }}
+                color={'#000000ff'}
+                buttonStyle={style.buttonRegister}
                 onPress = {() => navigation.navigate('CadastroLeads')}
               />
             </View>
-
-
-            </ScrollView>
-    
 
     </SafeAreaView>
   );
