@@ -1,0 +1,3 @@
+Próximos passos:
+* Trocar o banco de dados pelo PostgreSQL usando o Node.js
+* O teclado fica por cima dos inputs nos formulários. Existe um componente no React Native: KeyboardAvoidingView (estudar essa solução)

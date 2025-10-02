@@ -54,6 +54,7 @@ export default function CadastroLeads({ navigation }) {
                 style={style.input} 
                 keyboardType='name-phone-pad'
                 onChangeText={setName}
+                autoCapitalize='words'
                 />
                 {errorName && <Text style={{color:'red'}}>Campo obrigatório</Text>}
 

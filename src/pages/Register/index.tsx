@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, ScrollView, FlatList, KeyboardAvoidingView } from 'react-native';
 import style from './style';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '@rneui/base';
@@ -52,58 +52,65 @@ export default function Register({ navigation }) {
   };
 
   return (
-      <SafeAreaView>
+    <KeyboardAvoidingView enabled={true} behavior="padding" style={{flex:1}}>
+      <SafeAreaView style={{flex:1}}>
         
-        <View style={style.container}>
-          <Text style={style.h1}>Registrar</Text>
-          <Text style={style.h2}>Crie aqui a sua conta</Text>
+        
+          <View style={style.container}>
+            <Text style={style.h1}>Registrar</Text>
+            <Text style={style.h2}>Crie aqui a sua conta</Text>
 
-          <Text style={style.formLabel}>Nome completo</Text>
-          <TextInput
-            style={style.input}
-            placeholder="Nome Completo"
-            value={fullName}
-            onChangeText={setFullName}
-            autoCapitalize="words"
-          />
+            <Text style={style.formLabel}>Nome completo</Text>
+            <TextInput
+              style={style.input}
+              placeholder="Nome Completo"
+              value={fullName}
+              onChangeText={setFullName}
+              autoCapitalize="words"
+              
 
-          <Text style={style.formLabel}>Email</Text>
-          <TextInput
-            style={style.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+            />
 
-          <Text style={style.formLabel}>Senha</Text>
-          <TextInput
-            style={style.input}
-            placeholder="Senha"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+            <Text style={style.formLabel}>Email</Text>
+            <TextInput
+              style={style.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
 
-          <Text style={style.formLabel}>Confirme a senha</Text>
-          <TextInput
-            style={style.input}
-            placeholder="Confirme a Senha"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
-          <View style={{alignItems:'center', paddingTop:20}}>
-          <Button
-          title={"CADASTRAR"}
-          buttonStyle={style.buttonAcess}
-          onPress={handleRegister}
-          />
+            <Text style={style.formLabel}>Senha</Text>
+            <TextInput
+              style={style.input}
+              placeholder="Senha"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+
+            <Text style={style.formLabel}>Confirme a senha</Text>
+            <TextInput
+              style={style.input}
+              placeholder="Confirme a Senha"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+            />
+            <View style={{alignItems:'center', paddingTop:20}}>
+            <Button
+            title={"CADASTRAR"}
+            buttonStyle={style.buttonAcess}
+            onPress={handleRegister}
+            />
+            </View>
+    
           </View>
-  
-        </View>
-        </SafeAreaView>
+        
+
+      </SafeAreaView>
+    </KeyboardAvoidingView>
     
    
   );
